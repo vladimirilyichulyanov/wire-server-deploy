@@ -4,6 +4,12 @@
 # corresponding certificates uploaded, see
 # https://aws.amazon.com/premiumsupport/knowledge-center/import-ssl-certificate-to-iam/
 #
+
+teamSettings:
+  enabled: false
+accountPages:
+  enabled: false
+
 ingress:
   webapp:
     https:
@@ -14,6 +20,24 @@ ingress:
       ttl: 300
     http:
       webappPort: 8080
+  teamSettings:
+    https:
+      externalPort: 443
+      sslCert: arn:aws:iam::00000-accountnumber-00000:server-certificate/example.com
+      sslPolicy: ELBSecurityPolicy-TLS-1-2-2017-01
+      hostname: <prefix>-teams-https.<domain>
+      ttl: 300
+    http:
+      teamSettingsPort: 8080
+  accountPages:
+    https:
+      externalPort: 443
+      sslCert: arn:aws:iam::00000-accountnumber-00000:server-certificate/example.com
+      sslPolicy: ELBSecurityPolicy-TLS-1-2-2017-01
+      hostname: <prefix>-account-https.<domain>
+      ttl: 300
+    http:
+      accountPagesPort: 8080
   nginz:
     https:
       externalPort: 443
@@ -31,3 +55,14 @@ ingress:
       ttl: 300
     ws:
       wsPort: 8081
+  s3:
+    https:
+      externalPort: 443
+      sslCert: arn:aws:iam::00000-accountnumber-00000:server-certificate/example.com
+      sslPolicy: ELBSecurityPolicy-TLS-1-2-2017-01
+      hostname: <prefix>-s3-https.<domain>
+      ttl: 300
+    http:
+      serviceName: fake-aws-s3
+      externallyCreated: false # TODO: Docs
+      s3Port: 9000
